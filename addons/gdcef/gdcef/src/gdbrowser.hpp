@@ -677,6 +677,26 @@ public:
     void mouseWheelHorizontal(const int wDelta);
 
     // -------------------------------------------------------------------------
+    //! \brief Exported method to Godot script. Touch pressed.
+    // -------------------------------------------------------------------------
+    void touchDown(int id, double x, double y);
+
+    // -------------------------------------------------------------------------
+    //! \brief Exported method to Godot script. Touch moved.
+    // -------------------------------------------------------------------------
+    void touchMove(int id, double x, double y);
+
+    // -------------------------------------------------------------------------
+    //! \brief Exported method to Godot script. Touch released.
+    // -------------------------------------------------------------------------
+    void touchUp(int id, double x, double y);
+
+    // -------------------------------------------------------------------------
+    //! \brief Exported method to Godot script. Touch canceled.
+    // -------------------------------------------------------------------------
+    void touchCancel(int id);
+
+    // -------------------------------------------------------------------------
     //! \brief Exported method to Godot script. Set the new keyboard state (char
     //! typed ...).
     // -------------------------------------------------------------------------
