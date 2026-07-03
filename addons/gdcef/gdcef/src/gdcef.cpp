@@ -249,6 +249,7 @@ bool GDCef::initialize(godot::Dictionary config)
         getConfig(config, "user_gesture_required", true);
     m_browsers_settings.user_agent =
         getConfig(config, "user_agent", std::string{});
+    m_browsers_settings.enable_gpu = getConfig(config, "enable_gpu", false);
 
     // This function should be called on the main application thread to
     // initialize the CEF browser process. A return value of true indicates
@@ -746,8 +747,19 @@ void GDCef::Impl::OnBeforeCommandLineProcessing(
     }
 
     // https://magpcss.org/ceforum/viewtopic.php?f=17&t=18970
-    command_line->AppendSwitchWithValue("use-angle", "swiftshader");
-    command_line->AppendSwitchWithValue("use-gl", "angle");
+    // SwiftShader = software rendering, the maximum-compatibility default.
+    // With "enable_gpu" the switches are omitted and Chromium uses the real
+    // GPU (ANGLE->D3D11 on Windows, GL/Vulkan elsewhere) for raster,
+    // compositing and WebGL; OnPaint readback stays unchanged.
+    if (!settings.enable_gpu)
+    {
+        command_line->AppendSwitchWithValue("use-angle", "swiftshader");
+        command_line->AppendSwitchWithValue("use-gl", "angle");
+    }
+    else
+    {
+        GDCEF_DEBUG("GPU rendering enabled");
+    }
 
     // https://github.com/Lecrapouille/gdcef/issues/79
     if (settings.user_gesture_required)

@@ -310,6 +310,10 @@ private:
         bool user_gesture_required = true;
         //! \brief User agent
         std::string user_agent;
+        //! \brief Use real GPU rendering instead of SwiftShader software
+        //! rendering (faster raster/compositing/WebGL; software stays the
+        //! maximum-compatibility default)
+        bool enable_gpu = false;
     };
 
     //! \brief CEF interface implementation
